@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommendations for User {{ user.user_id }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .movie-cover {
+            max-width: 100%;
+            height: auto;
+        }
+        .header-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="header-buttons">
+            <!-- Button to return to the welcome page -->
+            <a href="{% url 'welcome' %}" class="btn btn-secondary">Select Another User</a>
+        </div>
+
+        <h1>Recommendations for User {{ user.user_id }}</h1>
+        <ul class="list-group mt-3">
+            {% for movie in top_movies %}
+                <li class="list-group-item">
+                    <h4>{{ movie.title }}</h4>
+                    <p><strong>Genres:</strong> {{ movie.genres }}</p>
+                    {% if movie.cover_image %}
+                        <img src="{{ movie.cover_image }}" alt="{{ movie.title }} cover" class="movie-cover">
+                    {% endif %}
+                    {% if movie.synopsis %}
+                        <p><strong>Synopsis:</strong> {{ movie.synopsis }}</p>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li class="list-group-item">No recommendations available for this user.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
